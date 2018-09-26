@@ -115,8 +115,8 @@
 		 */
 		palette: function (palette) {
 			var canvas = document.createElement('canvas'),
-					ctx = canvas.getContext('2d'),
-					gradient = ctx.createLinearGradient(0, 0, 0, 256);
+				ctx = canvas.getContext('2d'),
+				gradient = ctx.createLinearGradient(0, 0, 0, 256);
 
 			canvas.width = 1;
 			canvas.height = 256;
@@ -237,7 +237,7 @@
 		 */
 		_drawHotline: function (ctx) {
 			var i, j, dataLength, path, pathLength, pointStart, pointEnd,
-					gradient, gradientStartRGB, gradientEndRGB;
+				gradient, gradientStartRGB, gradientEndRGB;
 
 			ctx.lineWidth = this._weight;
 
@@ -326,8 +326,8 @@
 		 */
 		clipSegment: function (a, b, bounds, useLastCode, round) {
 			var codeA = useLastCode ? this._lastCode : L.LineUtil._getBitCode(a, bounds),
-					codeB = L.LineUtil._getBitCode(b, bounds),
-					codeOut, p, newCode;
+				codeB = L.LineUtil._getBitCode(b, bounds),
+				codeOut, p, newCode;
 
 			// save 2nd code to avoid calculating it on the next segment
 			this._lastCode = codeB;
@@ -336,10 +336,10 @@
 				// if a,b is inside the clip window (trivial accept)
 				if (!(codeA | codeB)) {
 					return [a, b];
-				// if a,b is outside the clip window (trivial reject)
+					// if a,b is outside the clip window (trivial reject)
 				} else if (codeA & codeB) {
 					return false;
-				// other cases
+					// other cases
 				} else {
 					codeOut = codeA || codeB;
 					p = L.LineUtil._getEdgeIntersection(a, b, codeOut, bounds, round);
@@ -389,8 +389,8 @@
 		 */
 		_projectLatlngs: function (latlngs, result, projectedBounds) {
 			var flat = latlngs[0] instanceof L.LatLng,
-					len = latlngs.length,
-					i, ring;
+				len = latlngs.length,
+				i, ring;
 
 			if (flat) {
 				ring = [];
@@ -420,8 +420,8 @@
 			this._parts = [];
 
 			var parts = this._parts,
-					bounds = this._renderer._bounds,
-					i, j, k, len, len2, segment, points;
+				bounds = this._renderer._bounds,
+				i, j, k, len, len2, segment, points;
 
 			for (i = 0, k = 0, len = this._rings.length; i < len; i++) {
 				points = this._rings[i];
@@ -445,6 +445,13 @@
 
 		_clickTolerance: function () {
 			return this.options.weight / 2 + this.options.outlineWidth + (L.Browser.touch ? 10 : 0);
+		},
+
+		initialize: function (latlngs, options) {
+			if (options.pane) {
+				options.renderer = renderer({pane: options.pane});
+			}
+			L.Polyline.prototype.initialize.call(this, latlngs, options);
 		}
 	});
 

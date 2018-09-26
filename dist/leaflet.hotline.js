@@ -271,6 +271,14 @@
         },
         _clickTolerance: function() {
             return this.options.weight / 2 + this.options.outlineWidth + (L.Browser.touch ? 10 : 0);
+        },
+        initialize: function(latlngs, options) {
+            if (options.pane) {
+                options.renderer = renderer({
+                    pane: options.pane
+                });
+            }
+            L.Polyline.prototype.initialize.call(this, latlngs, options);
         }
     });
     L.hotline = function(latlngs, options) {
